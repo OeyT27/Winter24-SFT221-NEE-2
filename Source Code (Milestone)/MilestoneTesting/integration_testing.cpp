@@ -1,4 +1,4 @@
-#include "finder.h"
+#include "find.h"
 #include <iostream>
 #include <limits>
 
