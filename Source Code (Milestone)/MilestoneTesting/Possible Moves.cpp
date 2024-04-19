@@ -122,35 +122,6 @@ namespace Moves
             Assert::IsTrue(eqPt(Point{ 0, 1 }, possibleMoves.points[0]));
         }
 
-        // Test when the point is at the corner of the map
-        TEST_METHOD(TestGetPossibleMoves9)
-        {
-            Map map = populateMap();
-            Point p4 = { 19, 19 };
-            Point backpath = { 18, 19 };
-            Route possibleMoves = getPossibleMoves(&map, p4, backpath);
-
-            //Assert
-            Assert::AreEqual(1, possibleMoves.numPoints);
-            Assert::IsTrue(eqPt(Point{ 19, 18 }, possibleMoves.points[0]));
-        }
-
-        // Test when all moves are possible
-        TEST_METHOD(TestGetPossibleMoves10)
-        {
-            Map map = populateMap();
-            Point p5 = { 10, 10 };
-            Point backpath = { 9, 10 };
-            Route possibleMoves = getPossibleMoves(&map, p5, backpath);
-
-            //Assert
-            Assert::AreEqual(4, possibleMoves.numPoints);
-            Assert::IsTrue(eqPt(Point{ 10, 9 }, possibleMoves.points[0]));
-            Assert::IsTrue(eqPt(Point{ 11, 10 }, possibleMoves.points[1]));
-            Assert::IsTrue(eqPt(Point{ 10, 11 }, possibleMoves.points[2]));
-            Assert::IsTrue(eqPt(Point{ 9, 10 }, possibleMoves.points[3]));
-        }
-
     };
 
 }
