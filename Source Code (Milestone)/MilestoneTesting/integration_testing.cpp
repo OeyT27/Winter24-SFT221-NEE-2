@@ -5,66 +5,64 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace IntegrationTests
 {
-    TEST_CLASS(AcceptanceIntegrationTest)
+    TEST_CLASS(IntegrationTest)
     {
     public:
 
-        TEST_METHOD(TestDistanceCalculationIntegration)
+        TEST_METHOD(TestAddRouteIntegration)
         {
-            // Calculate distance between two points
-            Point p1 = { 0, 0 };
-            Point p2 = { 3, 4 };
-            double dist = distance(&p1, &p2);
+            // Test the integration of populateMap and addRoute functions
+            Map map = populateMap();
+            Route route = getBlueRoute();
 
-            // Assert
-            Assert::AreEqual(5.0, dist);
-        }
+            // Add the route to the map
+            Map mapWithRoute = addRoute(&map, &route);
 
-        TEST_METHOD(TestNumRowsAndColsIntegration)
-        {
-            // Populate a map and get the number of rows and columns
-            Map testMap = populateMap();
-            int numRows = getNumRows(&testMap);
-            int numCols = getNumCols(&testMap);
-
-            // Assert
-            Assert::AreEqual(MAP_ROWS, numRows);
-            Assert::AreEqual(MAP_COLS, numCols);
+            // Assert statements to verify the properties of the map with the added route
+            Assert::AreEqual(2, mapWithRoute.squares[0][0]);
+            Assert::AreEqual(2, mapWithRoute.squares[1][0]);
+            Assert::AreEqual(2, mapWithRoute.squares[15][0]);
+            Assert::AreEqual(2, mapWithRoute.squares[32][0]);
         }
 
         TEST_METHOD(TestShortestPathIntegration)
         {
-            // Define a map with packages
-            Map testMap = populateMap();
+            // Test the integration of populateMap and shortestPath functions
+            Map map = populateMap();
+            Point start = { 0, 0 };
+            Point dest = { 5, 5 };
 
-            // Define package destinations
-            Point package1 = { 5, 5 };  
-            Point package2 = { 15, 15 }; 
-            Point package3 = { 20, 20 }; 
-            Point package4 = { 8, 8 };   
-            Point package5 = { 0, 0 };
+            // Calculate the shortest path from start to dest
+            Route shortest = shortestPath(&map, start, dest);
 
-            // Calculate shortest paths for each package
-            Route path1 = shortestPath(&testMap, package1, { 10, 10 });
-            Route path2 = shortestPath(&testMap, package2, { 5, 5 });
-            Route path3 = shortestPath(&testMap, package3, { 0, 0 });
-            Route path4 = shortestPath(&testMap, package4, { 15, 15 });
-            Route path5 = shortestPath(&testMap, package5, { 25, 25 });
-            Route path6 = shortestPath(&testMap, package1, package1);
+            // Assert statements to verify properties of the shortest path
+            Assert::AreEqual(5, shortest.numPoints);
 
-            // Assert
-            Assert::IsTrue(path1.numPoints > 0);
-            Assert::IsTrue(path2.numPoints > 0);
-            Assert::IsTrue(path3.numPoints > 0);
-            Assert::IsTrue(path4.numPoints > 0);
-            Assert::IsTrue(path5.numPoints == 0);
-            Assert::IsTrue(path6.numPoints == 0);
+            // Check specific points in the path to ensure correctness
+            Assert::IsTrue(eqPt(start, shortest.points[0]));
+            Assert::IsTrue(eqPt(dest, shortest.points[shortest.numPoints - 1]));
+            Assert::IsTrue(eqPt(dest, shortest.points[shortest.numPoints + 1]));
+            Assert::IsTrue(eqPt(dest, shortest.points[shortest.numPoints + 1000]));
+        }
 
-            // Additional assertions for path lengths if needed
-            Assert::AreEqual(6, path1.numPoints);
-            Assert::AreEqual(2, path2.numPoints);
-            Assert::AreEqual(4, path3.numPoints);
-            Assert::AreEqual(5, path4.numPoints);
+        TEST_METHOD(TestGetPossibleMovesIntegration)
+        {
+            // Test the integration of populateMap and getPossibleMoves functions
+            Map map = populateMap();
+            Point p1 = { 0, 0 };
+            Point backpath = { 0, 1 };
+
+            // Get possible moves from p1 while excluding backpath
+            Route possibleMoves = getPossibleMoves(&map, p1, backpath);
+
+            // Add assertions to check if the possible moves are correct based on expectations
+            Assert::AreEqual(2, possibleMoves.numPoints);
+
+            // Check specific points in the possible moves
+            Assert::IsTrue(eqPt(Point{ 1, 0 }, possibleMoves.points[0]));
+            Assert::IsTrue(eqPt(Point{ 0, 1 }, possibleMoves.points[1]));
+            Assert::IsTrue(eqPt(Point{ 0, 0 }, possibleMoves.points[0]));
+            Assert::IsTrue(eqPt(Point{ -1, -1 }, possibleMoves.points[-1]));
         }
     };
 }
