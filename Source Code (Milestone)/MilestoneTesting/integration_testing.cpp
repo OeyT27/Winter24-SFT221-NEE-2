@@ -11,14 +11,17 @@ namespace IntegrationTests
 
         TEST_METHOD(TestAddRouteIntegration)
         {
-            // Test the integration of populateMap and addRoute functions
+           
             Map map = populateMap();
             Route route = getBlueRoute();
 
-            // Add the route to the map
+         
             Map mapWithRoute = addRoute(&map, &route);
 
-            // Assert statements to verify the properties of the map with the added route
+          
+            Assert::IsNotNull(&mapWithRoute);
+
+          
             Assert::AreEqual(2, mapWithRoute.squares[0][0]);
             Assert::AreEqual(2, mapWithRoute.squares[1][0]);
             Assert::AreEqual(2, mapWithRoute.squares[15][0]);
@@ -27,15 +30,16 @@ namespace IntegrationTests
 
         TEST_METHOD(TestShortestPathIntegration)
         {
-            // Test the integration of populateMap and shortestPath functions
+           
             Map map = populateMap();
             Point start = { 0, 0 };
             Point dest = { 5, 5 };
 
-            // Calculate the shortest path from start to dest
+         
             Route shortest = shortestPath(&map, start, dest);
 
-            // Assert statements to verify properties of the shortest path
+         
+            Assert::IsNotNull(&shortest); // Ensure shortest path is not null
             Assert::AreEqual(5, shortest.numPoints);
 
             // Check specific points in the path to ensure correctness
@@ -47,15 +51,16 @@ namespace IntegrationTests
 
         TEST_METHOD(TestGetPossibleMovesIntegration)
         {
-            // Test the integration of populateMap and getPossibleMoves functions
+         
             Map map = populateMap();
             Point p1 = { 0, 0 };
             Point backpath = { 0, 1 };
 
-            // Get possible moves from p1 while excluding backpath
+         
             Route possibleMoves = getPossibleMoves(&map, p1, backpath);
 
-            // Add assertions to check if the possible moves are correct based on expectations
+         
+            Assert::IsNotNull(&possibleMoves); // Ensure possibleMoves is not null
             Assert::AreEqual(2, possibleMoves.numPoints);
 
             // Check specific points in the possible moves
