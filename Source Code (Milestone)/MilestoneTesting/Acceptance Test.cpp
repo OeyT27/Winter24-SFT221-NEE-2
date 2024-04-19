@@ -72,7 +72,7 @@ namespace Acceptance
 
             struct Map testMap = populateMap();
             struct Point package5 = { 0, 0 };
-            struct Route path5 = shortestPath(&testMap, package5, { 24, 24 });
+            struct Route path5 = shortestPath(&testMap, package5, { 25, 25 });
             
             //Assert
             Assert::IsTrue(path5.numPoints == 0);
