@@ -41,17 +41,6 @@ namespace Acceptance
         TEST_METHOD(AcceptanceTest3) {
 
             struct Map testMap = populateMap();
-            struct Point package1 = { 5, 5 };
-            struct Point package2 = { 15, 15 };
-            struct Point package3 = { 20, 20 };
-            struct Point package4 = { 8, 8 };
-
-        }
-
-        // Define a map with packages
-        TEST_METHOD(AcceptanceTest4) {
-
-            struct Map testMap = populateMap();
 
             // Define package destinations
             struct Point package1 = { 5, 5 };  
@@ -79,7 +68,7 @@ namespace Acceptance
         }
 
         // Test case to ensure no path when destination is unreachable
-        TEST_METHOD(AcceptanceTest5) {
+        TEST_METHOD(AcceptanceTest4) {
 
             struct Map testMap = populateMap();
             struct Point package5 = { 0, 0 };
@@ -90,7 +79,7 @@ namespace Acceptance
         }
 
         // Test case to ensure correct path calculation when start and destination are the same
-        TEST_METHOD(AcceptanceTest6) {
+        TEST_METHOD(AcceptanceTest5) {
             
             struct Map testMap = populateMap();
             struct Point package6 = { 5, 5 };
